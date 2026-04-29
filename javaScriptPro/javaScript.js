@@ -1,4 +1,4 @@
-const API_URL = 'https://crudcrud.com/api/24c9e5f08c35466ebd2dc4384c07df6d/apoint';
+const API_URL = 'https://crudcrud.com/api/399c091b447e4b4db4dc4861ca142087/candys';
 
 function handleSubmit(event) {
     event.preventDefault();
@@ -9,14 +9,27 @@ function handleSubmit(event) {
         description: document.getElementById('candyDescription').value,
         quantity: document.getElementById('quantity').value || 200 // Default to 200 as requested
     };
+    let editId = null
 
+    if(editId){
+        axios.put(`${API_URL}/${editId}`, candyObj)
+            .then((response) => {
+                console.log("Updated:", response.data);
+                displayData(); 
+                event.target.reset(); 
+                editId = null; // Reset editId  
+                document.querySelector('button[type="submit"]').textContent = 'Add Candy'; // Reset button text
+            })
+            .catch((error) => console.error("Update Error:", error));
+    }else{
     axios.post(API_URL, candyObj)
         .then((response) => {
             console.log("Success:", response.data);
-            displayData(); // Refresh list after adding
+            displayData(); 
             event.target.reset(); // Clear the form
         })
         .catch((error) => console.error("Post Error:", error));
+    }
 }
 
 function displayData() {
@@ -54,21 +67,16 @@ function deleteCandy(id) {
 }
 
 function editCandy(candy) {
-    const newName = prompt('Enter new name:', candy.name);
-    const newPrice = prompt('Enter new price:', candy.price);
-    const newDesc = prompt('Enter new description:', candy.description);
-    
-    const updatedCandy = {
-        name: newName,
-        price: newPrice,
-        description: newDesc,
-        quantity: candy.quantity
-    };
+    document.getElementById('candyName').value = candy.name;
+    document.getElementById('candyPrice').value = candy.price;
+    document.getElementById('candyDescription').value = candy.description;
+    document.getElementById('quantity').value = candy.quantity;
 
-    // Note: CrudCrud requires you to remove _id from the body for PUT requests
-    axios.put(`${API_URL}/${candy._id}`, updatedCandy)
-        .then(() => displayData())
-        .catch((err) => console.error(err));
+    editId = candy._id; // Store the ID for later use in the PUT request
+    
+   document.querySelector('button[type="submit"]').textContent = 'Update Candy'; // Change button text to indicate update mode
+
+   window.scrollTo(0, 0); // Scroll to top to show the form
 }
 
 // Load data when page opens

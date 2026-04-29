@@ -14,13 +14,11 @@
                <label for="candyPrice">Candy Price:</label>
                <input type="number" id="candyPrice" placeholder="Enter candy price">
 
-              
-
                <label for="candyDescription">Candy Description:</label>
                <input type="text" id="candyDescription" placeholder="Enter candy description">
 
                <label for="quantity">Quantity:</label>
-               <input type="number" id="quantity" placeholder="Enter quantity" >
+               <input type="number" id="quantity" placeholder="Enter quantity" value="200">
 
 
                <button type="submit" id="addBtn">Add Candy</button>
@@ -28,9 +26,10 @@
      </div>
      <div>
           <h2>Candy List</h2>
-          <ul id="candyList"></ul>
+          <ul id="candyList">
+          </ul>
      </div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="javaScript.js"></script>
 </html>
