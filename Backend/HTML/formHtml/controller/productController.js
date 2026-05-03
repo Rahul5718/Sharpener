@@ -5,9 +5,11 @@ const getprodcut = (req,res)=>{
 }
 
 const AddProduct = (req,res)=>{
-     const {name,price}= req.body
-     console.log(name,price);
-     res.send('Product added successfully')
+     const data= req.body
+     
+     res.json({value:data.productName})
+     
+    
 }
 
 module.exports={

@@ -7,13 +7,13 @@ const server = http.createServer((req,res)=>{
 
      if(req.url==='/'){
           //read the file
-          fs.readFile(meaasage.txt,(err,data)=>{
+          fs.readFile('meaasage.txt','utf8',(err,data)=>{
                if(err){
                     res.statusCode=500
                     res.end('Error reading file')
                }
           const messages = data.split('\n').filter(msg => msg.trim() !== '');
-          const messagesHtml = messages.reverse().map(msg => `<p>${msg}</p>`).join('');
+          const messagesHtml =messages.reverse().map(msg => `<p>${msg}</p>`).join('')
           
           res.setHeader('Content-Type', 'text/html');
           res.write('<html>');

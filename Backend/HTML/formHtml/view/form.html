@@ -7,13 +7,18 @@
 </head>
 <body>
      <div class="container">
-          <form action="submitForm" method="post">
-               <label>Product Name:</label>
+          <form onsubmit="onSubmit(event)">
+
+               <label name="productName">Product Name:</label>
                
-               <input type="text" name="productName" required>
+               <input id="productName" type="text" name="productName" required>
                
                <button type="submit">Add Product</button>
           </form>
      </div>
 </body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<script src="/js/product.js"></script>
 </html>
