@@ -2,7 +2,6 @@ const db=require('../util/dbConnection')
 
 const connection = require('../util/dbConnection')
 
-// const student = require('../model/student')
 const Student = require('../model/student')
 
 // const retrive=(req,res)=>{
@@ -57,27 +56,34 @@ const addEntry =async (req,res)=>{
      }
 }
 
-// const addEntry=(req,res)=>{
-//      const{name,email,age}=req.body
 
-//      const query=`insert into student (name,email,age) values(?,?,?)`
 
-//      db.execute(query,[name,email,age],(err)=>{
-//           if(err){
-//                console.log(err);
-//                res.status(500).send(err.message)
-//                return
-               
-//           }
-//           res.status(200).send(`values are inserted into student with name ${name}`)
-//      })
-// }
+const updateEntry= async(req,res)=>{
 
-// const updateEntry=(req,res)=>{
-//      const{id}=req.params
+     try {
+          const{id}=req.params
      
-//      const {name}=req.body
+          const {name}=req.body
 
+          const{email}=req.body
+
+          const student = await Student.findByPk(id)
+
+          if(!student){
+               res.status(404).send('user not found')
+          }
+
+          student.name=name;
+          student.email=email
+
+          await student.save()
+
+          res.status(200).send('user has been updated')
+
+     } catch (error) {
+          res.status(500).send('user cannot be updated')
+     }
+     
 //      const {email}=req.body
 
 //      const query=`update student set email=? ,name=?  where id=?`
@@ -97,7 +103,7 @@ const addEntry =async (req,res)=>{
 //           res.status(200).send('student has been updated')
 //      })
 
-// }
+}
 
 // const deleteEntry = (req,res)=>{
 //      const {id}= req.params
@@ -122,8 +128,8 @@ const addEntry =async (req,res)=>{
 
 module.exports={
      // retrive,
-     addEntry
-     // updateEntry,
+     addEntry,
+     updateEntry
      // deleteEntry,
      // retriveId
 }
