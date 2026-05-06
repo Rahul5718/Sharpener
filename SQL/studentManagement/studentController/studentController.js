@@ -4,39 +4,6 @@ const connection = require('../util/dbConnection')
 
 const Student = require('../model/student')
 
-// const retrive=(req,res)=>{
-//      const query=`select * from student`
-
-//      db.execute(query,(err,result)=>{
-//           if(err){
-//                console.log(err);
-//                res.status(500).send(err.message)
-//                return
-               
-//           }
-
-//           res.status(200).send(result)
-//      })
-// }
-
-// const retriveId= (req,res)=>{
-//      const {id}=req.params
-
-//      const query = `select * from student where id=?`
-
-//      db.execute(query,[id],(err,result)=>{
-//           if(err){
-//                console.log(err);
-//                res.status(500).send(err.message)
-//                return
-               
-//           }
-//           if(result.affectedRows===0){
-//                res.status(404).send(`student not found with id:${id}`)
-//           }
-//           res.status(200).send(result)
-//      })
-// }
 
 const addEntry =async (req,res)=>{
 
@@ -84,52 +51,38 @@ const updateEntry= async(req,res)=>{
           res.status(500).send('user cannot be updated')
      }
      
-//      const {email}=req.body
 
-//      const query=`update student set email=? ,name=?  where id=?`
-
-//      db.execute(query,[email,name,id],(err,result)=>{
-//           if(err){
-//                console.log(err);
-//                res.status(500).send(err.message)
-//                db.end()
-//                return    
-//           }
-//           if(result.affectedRows===0){
-//                res.status(404).send('student not found')
-//                return
-//           }
-
-//           res.status(200).send('student has been updated')
-//      })
 
 }
 
-// const deleteEntry = (req,res)=>{
-//      const {id}= req.params
+const deleteEntry = async(req,res)=>{
+     try {
+          const {id}= req.params
 
-//      const query= `delete from student where id=?`
+          const student = await Student.destroy({
+               where:{
+                    id:id
+               }
+          })
 
-//      db.execute(query,[id],(err,result)=>{
-//           if(err){
-//                console.log(err);
-//                res.status(500).send(err.message)
-//                return
-               
-//           }
-//           if(result.affectedRows===0){
-//                res.status(404).send('student not found')
-//                return
-//           }
+          if(!student){
+               res.status(404).send('user is not found')
+          }
+          res.status(200).send('user is deleted')
+          
+     } catch (error) {
+          res.status(500).send('error')
+     }
+    
 
-//           res.status(200).send(`student has been deleted with id : ${id}`)
-//      })
-// }
+}
+
+
 
 module.exports={
      // retrive,
      addEntry,
-     updateEntry
-     // deleteEntry,
+     updateEntry,
+     deleteEntry,
      // retriveId
 }
